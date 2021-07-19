@@ -54,6 +54,7 @@ jobs:
       with:
         repository: qmk/qmk_firmware
         path: qmk_firmware
+        ref: develop
         fetch-depth: 0
     
 #     - name: Revert MIDI_VELOCITY_MIN
