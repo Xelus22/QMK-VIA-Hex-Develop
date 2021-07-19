@@ -41,8 +41,6 @@ jobs:
     
     - name: Checkout build repo
       uses: actions/checkout@v2
-      with: 
-        ref: develop
 
     - name: Checkout qmk_firmware
       uses: actions/checkout@v2
@@ -50,7 +48,6 @@ jobs:
         submodules: recursive
         repository: qmk/qmk_firmware
         path: qmk_firmware
-        ref: develop
         
     - name: obtain all tags
       uses: actions/checkout@v2
