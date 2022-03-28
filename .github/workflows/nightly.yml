@@ -32,7 +32,7 @@ jobs:
         
     - name: upgrade AVR GCC
       run: |
-        wget -q https://blog.zakkemble.net/download/avr-gcc-8.3.0-x64-linux.tar.bz2
+        wget -q https://github.com/ZakKemble/avr-gcc-build/releases/download/v8.3.0-1/avr-gcc-8.3.0-x64-linux.tar.bz2
         tar xjf avr-gcc-8.3.0-x64-linux.tar.bz2 -C /usr/local/sbin
         pwd
         echo $PATH
