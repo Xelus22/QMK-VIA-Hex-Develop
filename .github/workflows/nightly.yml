@@ -87,6 +87,10 @@ jobs:
       run: |
         which arm-none-eabi-gcc
         arm-none-eabi-gcc --version
+    
+    - name: python3 requirements
+      run: |
+        /usr/bin/python3 -m pip install -r /__w/QMK-VIA-Hex-Develop/QMK-VIA-Hex-Develop/qmk_firmware/requirements.txt
         
     - name: Build
       working-directory: qmk_firmware
