@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     
-    container: qmkfm/base_container
+    container: qmkfm/qmk_cli
     
     steps:
     - name: install libfl2
