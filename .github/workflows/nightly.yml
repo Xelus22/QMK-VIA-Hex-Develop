@@ -21,27 +21,6 @@ jobs:
     container: qmkfm/qmk_cli
     
     steps:
-    - name: install libfl2
-      run: |
-        apt-get update
-        apt-get install --no-install-recommends -y libfl2
-      
-    - name: upgrade ARM GCC
-      run: |
-        wget -q https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2019q3/RC1.1/gcc-arm-none-eabi-8-2019-q3-update-linux.tar.bz2 -O - | tar xj --strip-components=1 -C / && rm -rf /arm-none-eabi/share/ /share/
-        
-    - name: upgrade AVR GCC
-      run: |
-        wget -q https://github.com/ZakKemble/avr-gcc-build/releases/download/v8.3.0-1/avr-gcc-8.3.0-x64-linux.tar.bz2
-        tar xjf avr-gcc-8.3.0-x64-linux.tar.bz2 -C /usr/local/sbin
-        pwd
-        echo $PATH
-        ls /usr/local/sbin
-        echo $PATH
-    
-    - name: Checkout build repo
-      uses: actions/checkout@v2
-
     - name: Checkout qmk_firmware
       uses: actions/checkout@v2
       with:
@@ -88,9 +67,9 @@ jobs:
         which arm-none-eabi-gcc
         arm-none-eabi-gcc --version
     
-    - name: python3 requirements
-      run: |
-        /usr/bin/python3 -m pip install -r /__w/QMK-VIA-Hex-Develop/QMK-VIA-Hex-Develop/qmk_firmware/requirements.txt
+    #- name: python3 requirements
+    #  run: |
+    #    /usr/bin/python3 -m pip install -r /__w/QMK-VIA-Hex-Develop/QMK-VIA-Hex-Develop/qmk_firmware/requirements.txt
         
     - name: Build
       working-directory: qmk_firmware
