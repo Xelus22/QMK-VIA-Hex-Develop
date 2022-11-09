@@ -41,7 +41,7 @@ jobs:
       with:
         repository: qmk/qmk_firmware
         path: qmk_firmware
-        ref: master
+        ref: develop
         fetch-depth: 0    
         
     - name: Remove Sirius/uni660
