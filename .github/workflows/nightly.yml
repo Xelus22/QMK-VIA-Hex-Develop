@@ -34,6 +34,7 @@ jobs:
       with:
         submodules: recursive
         repository: qmk/qmk_firmware
+        ref: develop
         path: qmk_firmware
         
     - name: obtain all tags
@@ -41,7 +42,7 @@ jobs:
       with:
         repository: qmk/qmk_firmware
         path: qmk_firmware
-        ref: develop
+        ref: master
         fetch-depth: 0    
         
     - name: Remove Sirius/uni660
