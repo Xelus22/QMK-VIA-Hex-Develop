@@ -34,8 +34,12 @@ jobs:
       with:
         submodules: recursive
         repository: qmk/qmk_firmware
-        ref: develop
         path: qmk_firmware
+        
+    - name: Checkout develop
+      uses: actions/checkout@v3
+      with:
+        ref: develop
         
     - name: obtain all tags
       uses: actions/checkout@v2
