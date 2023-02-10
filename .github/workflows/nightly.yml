@@ -86,12 +86,10 @@ jobs:
     - name: Sort output
       shell: bash
       run: |
-        for file in qmk_firmware/*.hex qmk_firmware/*.bin; do
-          DIR=$(echo $(basename "$file")|cut -d'_' -f1)
-          mkdir -p "$DIR"
-          mv "$file" "$DIR/"
+        for file in *.hex *.bin *.uf2; do
+          DIR=fw_output/$(echo $file | cut -d'_' -f1)
+          [ -f "$file" ] && (mkdir -p "$DIR"; mv -v "$file" "$DIR/") || true
         done
-        echo "Build on `date -u`" > README.md
       
     - name: Update Readme
       shell: bash "{0}"
