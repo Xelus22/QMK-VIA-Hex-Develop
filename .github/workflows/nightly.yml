@@ -19,12 +19,6 @@ jobs:
     runs-on: ubuntu-20.04
     
     container: qmkfm/qmk_cli
-    
-    steps:
-    - name: install libfl2
-      run: |
-        apt-get update
-        apt-get install --no-install-recommends -y libf
 
     - name: Checkout qmk_firmware
       uses: actions/checkout@v2
