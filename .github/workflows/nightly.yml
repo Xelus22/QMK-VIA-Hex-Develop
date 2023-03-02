@@ -24,10 +24,7 @@ jobs:
     - name: install libfl2
       run: |
         apt-get update
-        apt-get install --no-install-recommends -y libfl2
-    
-    - name: Checkout build repo
-      uses: actions/checkout@v2
+        apt-get install --no-install-recommends -y libf
 
     - name: Checkout qmk_firmware
       uses: actions/checkout@v2
@@ -36,34 +33,22 @@ jobs:
         repository: qmk/qmk_firmware
         path: qmk_firmware
         ref: develop
-        fetch-depth: 0
-        
-    - name: Remove Sirius/uni660
-      run: |
-        rm -r qmk_firmware/keyboards/sirius/uni660
+        fetch-depth:
       
     - name: Remove ".noci"
       run: |
         find . -name ".noci" -type f -delete
-        
-    - name: ARM GCC version
-      run: |
-        which arm-none-eabi-gcc
-        arm-none-eabi-gcc --version
         
     - name: Build
       working-directory: qmk_firmware
       #env:
       #  MAKEFLAGS: '-j3 --output-sync'
       run: |
-        export PATH="/usr/local/sbin/avr-gcc-8.3.0-x64-linux/bin:$PATH"
-        echo $PATH
-        which avr-gcc
         avr-gcc --version
         git clean -xfd && make git-submodule && qmk mass-compile -j3 -km via || true
         cat .build/failed* > failures.log || true
 
-    - name: 'Upload binaries'
+    - name: 'Upload failures log'
       uses: actions/upload-artifact@v2
       with:
         name: Artifacts
@@ -83,6 +68,9 @@ jobs:
       run: |
         echo -e "VIA enabled QMK compiled HEX and BIN files on the DEVELOP branch\n\n# THESE ARE EXPERIMENTAL \n\n This has been compiled on $(git -C $PWD/qmk_firmware describe --abbrev=0 --tags)" > README.md
 
+    - name: Add safe directory
+      run: git config --global --add safe.directory /__w/QMK-VIA-Hex/QMK-VIA-Hex
+      
     - name: Commit
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
