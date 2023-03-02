@@ -40,7 +40,10 @@ jobs:
       #  MAKEFLAGS: '-j3 --output-sync'
       run: |
         avr-gcc --version
-        git clean -xfd && make git-submodule && qmk mass-compile -j3 -km via || true
+        git clean -xfd 
+        make git-submodule
+        qmk compile -kb xelus/valor/rev1 -km via
+        
         cat .build/failed* > failures.log || true
 
     - name: 'Upload failures log'
