@@ -28,7 +28,7 @@ jobs:
         repository: qmk/qmk_firmware
         path: qmk_firmware
         ref: develop
-        fetch-depth: 0
+        fetch-depth: 1
       
     - name: Remove ".noci"
       run: |
@@ -64,7 +64,7 @@ jobs:
         echo -e "VIA enabled QMK compiled HEX and BIN files on the DEVELOP branch\n\n# THESE ARE EXPERIMENTAL \n\n This has been compiled on $(git -C $PWD/qmk_firmware describe --abbrev=0 --tags)" > README.md
 
     - name: Add safe directory
-      run: git config --global --add safe.directory /__w/QMK-VIA-Hex-Develop/QMK-VIA-Hex-Develop
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       
     - name: Commit
       uses: stefanzweifel/git-auto-commit-action@v4
