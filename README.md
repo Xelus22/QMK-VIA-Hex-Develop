@@ -1,5 +1,3 @@
-VIA enabled QMK compiled HEX and BIN files on the DEVELOP branch
+# VIA enabled QMK compiled HEX and BIN files
 
-# THESE ARE EXPERIMENTAL 
-
- This has been compiled on 0.20.0
+This has been compiled on breakpoint_2023_02_26
