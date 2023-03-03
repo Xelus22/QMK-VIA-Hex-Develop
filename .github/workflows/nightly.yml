@@ -21,6 +21,9 @@ jobs:
     container: qmkfm/qmk_cli
     
     steps:
+    - name: Checkout build repo
+      uses: actions/checkout@v2
+      
     - name: Checkout qmk_firmware
       uses: actions/checkout@v2
       with:
