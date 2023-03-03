@@ -20,23 +20,24 @@ jobs:
     
     container: qmkfm/qmk_cli
     
-    steps:
+    steps:  
     - name: Checkout build repo
       uses: actions/checkout@v2
-      
+
     - name: Checkout qmk_firmware
       uses: actions/checkout@v2
       with:
         submodules: recursive
         repository: qmk/qmk_firmware
-        path: qmk_firmware
         ref: develop
+        path: qmk_firmware
         
     - name: obtain all tags
       uses: actions/checkout@v2
       with:
         repository: qmk/qmk_firmware
         path: qmk_firmware
+        ref: develop
         fetch-depth: 0
       
     - name: Remove ".noci"
@@ -49,12 +50,11 @@ jobs:
       #  MAKEFLAGS: '-j3 --output-sync'
       run: |
         git clean -xfd 
-        make git-submodule
-        # qmk mass-compile -km via -j4
-        qmk compile -kb xelus/valor/rev2 -km via -j4
+        make git-submodule 
+        qmk mass-compile -j3 -km via || true
         cat .build/failed* > failures.log || true
 
-    - name: 'Upload failures log'
+    - name: 'Upload binaries'
       uses: actions/upload-artifact@v2
       with:
         name: Artifacts
@@ -64,19 +64,21 @@ jobs:
     - name: Sort output
       shell: bash
       run: |
-        for file in *.hex *.bin *.uf2; do
-          DIR=fw_output/$(echo $file | cut -d'_' -f1)
-          [ -f "$file" ] && (mkdir -p "$DIR"; mv -v "$file" "$DIR/") || true
+        for file in qmk_firmware/*.hex qmk_firmware/*.bin; do
+          DIR=$(echo $(basename "$file")|cut -d'_' -f1)
+          mkdir -p "$DIR"
+          mv "$file" "$DIR/"
         done
+        echo "Build on `date -u`" > README.md
       
     - name: Update Readme
       shell: bash "{0}"
       run: |
-        echo -e "VIA enabled QMK compiled HEX and BIN files on the DEVELOP branch\n\n# THESE ARE EXPERIMENTAL \n\n This has been compiled on $(git -C $PWD/qmk_firmware describe --abbrev=0 --tags)" > README.md
+        echo -e "# VIA enabled QMK compiled HEX and BIN files\n\nThis has been compiled on $(git -C $PWD/qmk_firmware describe --abbrev=0 --tags)" > README.md
 
     - name: Add safe directory
       run: git config --global --add safe.directory /__w/QMK-VIA-Hex-Develop/QMK-VIA-Hex-Develop
-      
+
     - name: Commit
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
