@@ -45,7 +45,7 @@ jobs:
         avr-gcc --version
         git clean -xfd 
         make git-submodule
-        qmk compile -kb xelus/valor/rev1 -km via
+        qmk mass-compile -km via
         
         cat .build/failed* > failures.log || true
 
