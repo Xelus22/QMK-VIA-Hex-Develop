@@ -31,7 +31,13 @@ jobs:
         repository: qmk/qmk_firmware
         path: qmk_firmware
         ref: develop
-        fetch-depth: 1
+        
+    - name: obtain all tags
+      uses: actions/checkout@v2
+      with:
+        repository: qmk/qmk_firmware
+        path: qmk_firmware
+        fetch-depth: 0
       
     - name: Remove ".noci"
       run: |
@@ -42,7 +48,6 @@ jobs:
       #env:
       #  MAKEFLAGS: '-j3 --output-sync'
       run: |
-        avr-gcc --version
         git clean -xfd 
         make git-submodule
         # qmk mass-compile -km via -j4
@@ -70,18 +75,10 @@ jobs:
         echo -e "VIA enabled QMK compiled HEX and BIN files on the DEVELOP branch\n\n# THESE ARE EXPERIMENTAL \n\n This has been compiled on $(git -C $PWD/qmk_firmware describe --abbrev=0 --tags)" > README.md
 
     - name: Add safe directory
-      run: git config --system --add safe.directory /__w/QMK-VIA-Hex-Develop/QMK-VIA-Hex-Develop
+      run: git config --global --add safe.directory /__w/QMK-VIA-Hex-Develop/QMK-VIA-Hex-Develop
       
     - name: Commit
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Nightly Build
         push_options: --force
-        
-    - name: "Run if changes have been detected"
-      if: steps.auto-commit-action.outputs.changes_detected == 'true'
-      run: echo "Changes!"
-
-    - name: "Run if no changes have been detected"
-      if: steps.auto-commit-action.outputs.changes_detected == 'false'
-      run: echo "No Changes!"
